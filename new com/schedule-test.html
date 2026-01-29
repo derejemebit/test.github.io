@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Test</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .test-button { padding: 10px 20px; margin: 5px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .test-button:hover { background: #2563eb; }
+        .test-output { margin-top: 10px; padding: 10px; background: #f9fafb; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Schedule Editing Test</h1>
+    
+    <div class="test-section">
+        <h2>Schedule Display Test</h2>
+        <div class="schedule-content">
+            <div class="timezone-info">
+                <span class="timezone-label">Current Time:</span>
+                <span class="current-time" id="currentTime"></span>
+                <span class="timezone" id="timezone"></span>
+            </div>
+            
+            <div class="schedule-grid">
+                <div class="schedule-header">
+                    <div class="time-column">Time</div>
+                    <div class="day-column">Monday</div>
+                    <div class="day-column">Tuesday</div>
+                    <div class="day-column">Wednesday</div>
+                    <div class="day-column">Thursday</div>
+                    <div class="day-column">Friday</div>
+                    <div class="day-column">Saturday</div>
+                    <div class="day-column">Sunday</div>
+                </div>
+                
+                <div class="schedule-body" id="scheduleBody">
+                    <!-- Schedule will be generated here -->
+                </div>
+            </div>
+            
+            <div class="schedule-controls">
+                <button class="edit-schedule-btn" id="editScheduleBtn">Edit Schedule</button>
+                <button class="save-schedule-btn" id="saveScheduleBtn" style="display: none;">Save Changes</button>
+                <button class="cancel-edit-btn" id="cancelEditBtn" style="display: none;">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Manual Tests</h2>
+        <button class="test-button" onclick="testScheduleInit()">Test Schedule Init</button>
+        <button class="test-button" onclick="testEditMode()">Test Edit Mode</button>
+        <button class="test-button" onclick="testModalOpen()">Test Modal</button>
+        <div class="test-output" id="testOutput"></div>
+    </div>
+    
+    <!-- Schedule Edit Modal -->
+    <div class="schedule-modal" id="scheduleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Schedule Entry</h3>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="modalDay">Day:</label>
+                    <select id="modalDay" class="form-input">
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="modalTime">Time:</label>
+                    <select id="modalTime" class="form-input">
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:00">13:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="modalActivity">Activity:</label>
+                    <input type="text" id="modalActivity" class="form-input" placeholder="Enter activity name">
+                </div>
+                <div class="form-group">
+                    <label for="modalType">Type:</label>
+                    <select id="modalType" class="form-input">
+                        <option value="work">Work/Development</option>
+                        <option value="meeting">Meetings/Calls</option>
+                        <option value="learning">Learning/Research</option>
+                        <option value="available">Available</option>
+                        <option value="break">Break/Personal</option>
+                        <option value="empty">Free Time</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="modalCancel">Cancel</button>
+                <button class="modal-btn primary" id="modalSave">Save Entry</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function testScheduleInit() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<h3>Testing Schedule Initialization:</h3>';
+            
+            if (typeof PersonalWebsite !== 'undefined') {
+                output.innerHTML += '<p>✅ PersonalWebsite object found</p>';
+                
+                if (PersonalWebsite.schedule) {
+                    output.innerHTML += '<p>✅ Schedule module found</p>';
+                    
+                    // Test schedule generation
+                    PersonalWebsite.schedule.generateSchedule();
+                    output.innerHTML += '<p>✅ Schedule generated</p>';
+                    
+                    // Test time update
+                    PersonalWebsite.schedule.updateCurrentTime();
+                    output.innerHTML += '<p>✅ Time updated</p>';
+                    
+                } else {
+                    output.innerHTML += '<p>❌ Schedule module not found</p>';
+                }
+            } else {
+                output.innerHTML += '<p>❌ PersonalWebsite object not found</p>';
+            }
+        }
+        
+        function testEditMode() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<h3>Testing Edit Mode:</h3>';
+            
+            if (PersonalWebsite && PersonalWebsite.schedule) {
+                PersonalWebsite.schedule.enterEditMode();
+                output.innerHTML += '<p>✅ Edit mode activated</p>';
+                output.innerHTML += '<p>Check if cells are now clickable and buttons changed</p>';
+            } else {
+                output.innerHTML += '<p>❌ Schedule not available</p>';
+            }
+        }
+        
+        function testModalOpen() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<h3>Testing Modal:</h3>';
+            
+            const modal = document.getElementById('scheduleModal');
+            if (modal) {
+                modal.classList.add('show');
+                output.innerHTML += '<p>✅ Modal opened</p>';
+                
+                // Auto-close after 3 seconds
+                setTimeout(() => {
+                    modal.classList.remove('show');
+                    output.innerHTML += '<p>✅ Modal closed automatically</p>';
+                }, 3000);
+            } else {
+                output.innerHTML += '<p>❌ Modal not found</p>';
+            }
+        }
+    </script>
+    
+    <script src="script-simple.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h1>Authentication Modal Test</h1>
+        <button id="testAuthBtn" style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Test Authentication Modal
+        </button>
+        <div id="testResults" style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+            <h3>Test Results:</h3>
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="auth-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Authentication Required</h3>
+                <button id="authModalClose" class="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="authUsername">Username:</label>
+                    <input type="text" id="authUsername" class="form-input">
+                    <span id="authUsernameError" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="authPassword">Password:</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="authPassword" class="form-input">
+                        <button type="button" id="passwordToggle" class="password-toggle">
+                            <span class="eye-open">👁</span>
+                            <span class="eye-closed" style="display: none;">🙈</span>
+                        </button>
+                    </div>
+                    <span id="authPasswordError" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        Remember me for 24 hours
+                    </label>
+                </div>
+                <div id="authError" class="error-message"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="authCancel" class="modal-btn secondary">Cancel</button>
+                <button id="authLogin" class="modal-btn primary">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple test script
+        document.getElementById('testAuthBtn').addEventListener('click', function() {
+            const output = document.getElementById('output');
+            output.innerHTML = '<p>Testing authentication modal...</p>';
+            
+            // Test if modal elements exist
+            const modal = document.getElementById('authModal');
+            const username = document.getElementById('authUsername');
+            const password = document.getElementById('authPassword');
+            const loginBtn = document.getElementById('authLogin');
+            
+            if (modal && username && password && loginBtn) {
+                output.innerHTML += '<p>✅ All authentication modal elements found</p>';
+                
+                // Show the modal
+                modal.classList.add('show');
+                output.innerHTML += '<p>✅ Modal displayed successfully</p>';
+                
+                // Test credentials (admin/schedule123)
+                username.value = 'admin';
+                password.value = 'schedule123';
+                output.innerHTML += '<p>✅ Test credentials entered</p>';
+                
+                output.innerHTML += '<p>🎉 Authentication modal is working! You can now close it and test the schedule editing.</p>';
+            } else {
+                output.innerHTML += '<p>❌ Some authentication modal elements are missing</p>';
+            }
+        });
+        
+        // Close modal functionality
+        document.getElementById('authModalClose').addEventListener('click', function() {
+            document.getElementById('authModal').classList.remove('show');
+        });
+        
+        document.getElementById('authCancel').addEventListener('click', function() {
+            document.getElementById('authModal').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

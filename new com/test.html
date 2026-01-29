@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h1>Schedule Edit Test</h1>
+        <button id="testEditBtn">Test Edit Schedule</button>
+        <div id="testOutput"></div>
+    </div>
+    
+    <script>
+        // Simple test script
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded');
+            
+            const testBtn = document.getElementById('testEditBtn');
+            const output = document.getElementById('testOutput');
+            
+            testBtn.addEventListener('click', function() {
+                output.innerHTML = '<p>Testing schedule functionality...</p>';
+                
+                // Test if PersonalWebsite object exists
+                if (typeof PersonalWebsite !== 'undefined') {
+                    output.innerHTML += '<p>✅ PersonalWebsite object found</p>';
+                    
+                    if (PersonalWebsite.schedule) {
+                        output.innerHTML += '<p>✅ Schedule module found</p>';
+                        
+                        if (PersonalWebsite.authentication) {
+                            output.innerHTML += '<p>✅ Authentication module found</p>';
+                            
+                            // Test authentication
+                            PersonalWebsite.authentication.isAuthenticated = true;
+                            PersonalWebsite.schedule.enterEditMode();
+                            output.innerHTML += '<p>✅ Edit mode triggered</p>';
+                        } else {
+                            output.innerHTML += '<p>❌ Authentication module not found</p>';
+                        }
+                    } else {
+                        output.innerHTML += '<p>❌ Schedule module not found</p>';
+                    }
+                } else {
+                    output.innerHTML += '<p>❌ PersonalWebsite object not found</p>';
+                }
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
